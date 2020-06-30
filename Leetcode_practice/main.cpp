@@ -9,11 +9,15 @@
 #include <iostream>
 #include <set>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 #pragma mark 1：只出现一次的数字
 /*
+ 
+ leetcode:https://leetcode-cn.com/problems/single-number/
+ 
  给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。
  找出那个只出现了一次的元素。
 
@@ -101,6 +105,136 @@ void testSingleNumber(){
 
 }
 
+#pragma mark 2: 多数元素
+/*
+ 
+ leetcode:https://leetcode-cn.com/problems/majority-element/solution/duo-shu-yuan-su-by-leetcode-solution/
+ 
+ 给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+
+ 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+
+
+ 示例 1:
+
+ 输入: [3,2,3]
+ 输出: 3
+ 示例 2:
+
+ 输入: [2,2,1,1,1,2,2]
+ 输出: 2
+ */
+
+int majorityElement(vector<int>& nums) {
+    
+  set<int> s1;
+  
+    for (int i = 0; i < nums.size(); i++) {
+      
+      s1.insert(nums[i]);
+
+  }
+  
+  int *temp1 = (int*)malloc(sizeof(int)*s1.size());
+  int j = 0;
+    int count =  int(nums.size() / 2);
+
+  for (set<int>::iterator t = s1.begin(); t != s1.end(); t++) {
+      int temp = 0;
+      for (int i = 0; i < nums.size(); i++) {
+          if (*t == nums[i]) {
+              temp++;
+          }
+      }
+      if (temp > count) {
+          return *t;
+      }
+      temp1[j] = temp;
+      j++;
+  }
+  
+
+  return 0;
+
+}
+
+int majorityElement1(int* nums, int numsSize){
+    
+        
+    set<int> s1;
+    
+    for (int i = 0; i < numsSize; i++) {
+        
+        s1.insert(nums[i]);
+
+    }
+    
+    int *temp1 = (int*)malloc(sizeof(int)*s1.size());
+    int j = 0;
+    int count = numsSize / 2;
+
+    for (set<int>::iterator t = s1.begin(); t != s1.end(); t++) {
+        int temp = 0;
+        for (int i = 0; i < numsSize; i++) {
+            if (*t == nums[i]) {
+                temp++;
+            }
+        }
+        if (temp > count) {
+            return *t;
+        }
+        temp1[j] = temp;
+        j++;
+    }
+    
+   
+    
+  
+    return 0;
+}
+
+int majorityElement2(vector<int>& nums) {
+    
+    unordered_map<int,int> counts;
+    
+    int temp = 0, cnts = 0;
+    
+    for (int i = 0 ; i < nums.size(); i++) {
+        
+        counts[nums[i]]++;
+        
+        if (counts[nums[i]] > cnts) {
+            temp = nums[i];//key
+            cnts = counts[nums[i]];//value 次数
+        }
+    }
+    
+    if (cnts > (nums.size() / 2)) {
+        return temp;
+    }
+    
+    return 0;
+}
+
+void testmajorityElement(){
+    int a[3] = {3,2,3};
+    int temp = majorityElement1(a, 3);
+    
+    printf("1:最多的数字是:%d \n",temp);
+    
+    
+    vector<int>s1 = {2,2,1,1,1,2,2};
+    
+    
+//    int temp1 =  majorityElement1(s1);
+    int temp1 =  majorityElement2(s1);
+
+    printf("2:最多的数字是:%d \n",temp1);
+
+}
+
+
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -109,6 +243,8 @@ int main(int argc, const char * argv[]) {
     printf("你好啊\n");
     
     testSingleNumber();
+    
+    testmajorityElement();
     
     
         
